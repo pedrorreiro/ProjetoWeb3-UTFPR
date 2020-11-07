@@ -127,9 +127,14 @@ app.post('/post/', async (req, res) => {
         console.log("token error");
     }
 
-    await contas.enviaPost(titulo,conteudo,email);
+    if(email === null || email === ''){ // ele pega o email referente ao token. Caso o token não for válido, o email vai ser null
+        res.send({msg: "authentication error!"});
+    }
 
-    res.send({msg: "postado!"});
+    else{
+        await contas.enviaPost(titulo,conteudo,email);
+        res.send({msg: "postado!"});
+    }
 
 });
 
@@ -141,9 +146,9 @@ app.get('/posts/', async (req, res) => {
 
 });
 
-app.post('/buscaPosts/', async (req, res) => {
+app.get('/buscaPosts/:busca', async (req, res) => {
 
-    var busca = req.body.busca;
+    var busca = req.params.busca;
 
     var posts = await contas.getPosts(busca);
 

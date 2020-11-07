@@ -420,9 +420,7 @@ class App extends React.Component {
 
         const axios = require("axios");
 
-        axios.post('https://servidorpedro.herokuapp.com/buscaPosts/', {
-            busca: busca
-        })
+        axios.get('https://servidorpedro.herokuapp.com/buscaPosts/' + busca)
             .then(((response) => {
                 this.setState({
                     posts: response.data.posts
