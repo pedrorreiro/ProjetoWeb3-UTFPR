@@ -406,7 +406,11 @@ class App extends React.Component {
 
         const axios = require("axios");
 
-        axios.get('https://servidorpedro.herokuapp.com/posts/')
+        axios.get('https://servidorpedro.herokuapp.com/posts/', {
+            headers: {
+                authorization: this.getToken()
+            }
+        })
             .then(((response) => {
                 this.setState({
                     posts: response.data.posts
@@ -420,7 +424,11 @@ class App extends React.Component {
 
         const axios = require("axios");
 
-        axios.get('https://servidorpedro.herokuapp.com/buscaPosts/' + busca)
+        axios.get('https://servidorpedro.herokuapp.com/buscaPosts/' + busca, {
+            headers: {
+                authorization: this.getToken()
+            }
+        }) 
             .then(((response) => {
                 this.setState({
                     posts: response.data.posts
