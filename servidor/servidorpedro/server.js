@@ -140,19 +140,50 @@ app.post('/post/', async (req, res) => {
 
 app.get('/posts/', async (req, res) => {
 
-    var posts = await contas.getPosts("");
+    var token = req.headers.authorization;
 
-    res.send({posts: posts});
+    try{
+        var email = await jwt.verify(token, jwtKey).email;
+
+    }catch(JsonWebTokenError){
+        console.log("token error");
+    }
+
+    if(email === null || email === ''){ // ele pega o email referente ao token. Caso o token não for válido, o email vai ser null
+        res.send({msg: "authentication error!"});
+    }
+
+    else{
+        var posts = await contas.getPosts("");
+
+        res.send({posts: posts});
+    }
+
 
 });
 
 app.get('/buscaPosts/:busca', async (req, res) => {
 
-    var busca = req.params.busca;
+    var token = req.headers.authorization;
 
-    var posts = await contas.getPosts(busca);
+    try{
+        var email = await jwt.verify(token, jwtKey).email;
 
-    res.send({posts: posts});
+    }catch(JsonWebTokenError){
+        console.log("token error");
+    }
+
+    if(email === null || email === ''){ // ele pega o email referente ao token. Caso o token não for válido, o email vai ser null
+        res.send({msg: "authentication error!"});
+    }
+
+    else{
+        var busca = req.params.busca;
+
+        var posts = await contas.getPosts(busca);
+
+        res.send({posts: posts});
+    }
 
 });
 
